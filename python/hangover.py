@@ -1,17 +1,10 @@
 #!/usr/bin/env python
 
-import datetime
 import os
 import random
 from twilio.rest import TwilioRestClient
 from time import strftime
 import subprocess
-
-today = datetime.date.today()
-
-# skip weekends
-if today.strftime('%A') in ('Saturday', 'Sunday'):
-    sys.exit()
 
 # exit if sessions with my username are found
 output = subprocess.check_output('who')
@@ -41,17 +34,4 @@ client.messages.create(
     body="Gonna work from home. " + random.choice(excuses)
 )
 
-try:
-    f = open('logs/file.txt', 'a')
-except IOError as e:
-    # dir & file don't exist; create them
-    os.mkdir('logs')
-    f = open('logs/file.txt', 'a')
-except Exception as e:
-    print e
-else:
-    pass
-
-# log it
-f.write("Message sent at " + strftime("%a, %d %b %Y %H:%M:%S") + "\n")
-f.close()
+print "Message sent at " + strftime("%a, %d %b %Y %H:%M:%S")
